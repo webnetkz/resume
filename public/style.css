@@ -18,6 +18,7 @@ div#content {
     box-shadow: 0 0 10px black;
     padding: 5%;
     border-radius: 10px;
+    margin-bottom: 2em;
 }
 
 h1 {

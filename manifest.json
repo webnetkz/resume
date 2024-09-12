@@ -1,9 +1,9 @@
 {
   "short_name": "Resume",
-  "name": "Resume",
+  "name": "My Resume",
   "version": "1.0.0",
-  "description": "Resume of Yaroslav",
-  "lang": "ru",
+  "description": "Description of resume",
+  "lang": "en",
   "orientation": "any",
   "categories": ["web"],
   "icons": [

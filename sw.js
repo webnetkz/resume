@@ -6,7 +6,8 @@ self.addEventListener('install', function(e)
    caches.open('title').then(function(cache)
    {
      return cache.addAll([
-       //'./public/styles/style.css',
+       './public/js/script.js',
+       './public/css/style.css',
      ]);
    })
  );

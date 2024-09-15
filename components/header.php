@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Resume</title>
@@ -11,8 +12,8 @@
         <meta name="viewport" content="width=device-width">
         <meta name="robots" content="index, follow">
 
-        <link rel="stylesheet" href="./public/css/style.css">
-        <link rel="stylesheet" href="./public/css/mobile.css">
+        <link rel="stylesheet" href="./public/css/style.css" media="all">
+        <link rel="stylesheet" href="./public/css/mobile.css" media="all">
 
         <link rel="shortcut icon" type="image/png" href="./logo512.png">
         <link rel="apple-touch-icon" href="./logo512.png">

@@ -22,8 +22,11 @@
 }
 
 body {
-  display: flex;
   overflow: hidden;
+}
+
+.main-container {
+  display: flex;
 }
 
 .typed-cursor {
@@ -65,11 +68,37 @@ body {
   clip-path: polygon(25% 0, 100% 0%, 100% 100%, 0% 100%);
 }
 
-.goToleft {
-  animation: goToleft 0.5s linear;
+.goToTop {
+  animation: goToTop 0.5s linear;
 }
 
-@keyframes goToleft {
+@keyframes goToTop {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -100vh;
+  }
+}
+
+.goToBottom {
+  animation: goToBottom 0.5s linear;
+}
+
+@keyframes goToBottom {
+  0% {
+    bottom: 0;
+  }
+  100% {
+    bottom: -100vh;
+  }
+}
+
+.goToLeft {
+  animation: goToLeft 0.5s linear;
+}
+
+@keyframes goToLeft {
   0% {
     left: 0;
   }
@@ -90,4 +119,16 @@ body {
   100% {
     right: -100vw;
   }
+}
+
+.soundbutton {
+  position: fixed;
+  bottom: -10rem;
+  left: 1rem;
+  width: 33px;
+  cursor: pointer;
+}
+
+.soundbutton:hover {
+  transform: rotateZ(45deg);
 }

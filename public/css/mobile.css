@@ -1,5 +1,19 @@
 @media (max-width: 1200px) {
-  body {
+  .main-container {
     flex-direction: column;
+  }
+  #hrBlock,
+  #devBlock {
+    position: absolute;
+    width: 100vw;
+    height: 57.4vh;
+  }
+  #hrBlock {
+    top: 0;
+    clip-path: polygon(0 0, 100% 0%, 100% 75%, 0% 100%);
+  }
+  #devBlock {
+    bottom: 0;
+    clip-path: polygon(0% 25%, 100% 0%, 100% 100%, 0% 100%);
   }
 }

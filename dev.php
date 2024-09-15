@@ -1,6 +1,6 @@
   
 <div id="dev" style="display: none;">
-  <link rel="stylesheet" href="./public/css/dev.css" disabled id="devCSS">
+  <link rel="stylesheet" href="./public/css/dev.css" disabled id="devCSS" media="all">
 
   <div class="dev-container">
     <span id="element"></span>

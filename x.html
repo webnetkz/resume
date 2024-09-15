@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Example</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<canvas id="gameCanvas"></canvas>
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    let cw = canvas.width = window.innerWidth;
+    let ch = canvas.height = window.innerHeight;
+
+    const player = {
+        x: cw / 2,
+        y: ch / 2,
+        radius: 10,
+        speed: 30,
+        direction: 0,
+        color: 'white'
+    };
+
+    const bullets = [];
+    const bulletSpeed = 1000;
+
+    let mouseX = cw / 2;
+    let mouseY = ch / 2;
+
+    canvas.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    canvas.addEventListener('click', () => {
+        const angle = Math.atan2(mouseY - player.y, mouseX - player.x);
+        bullets.push({
+            x: player.x,
+            y: player.y,
+            direction: angle,
+            speed: bulletSpeed / 1000,
+            radius: 5
+        });
+    });
+
+    function movePlayer(deltaTime) {
+        const angle = Math.atan2(mouseY - player.y, mouseX - player.x);
+        const distanceToMouse = Math.sqrt((mouseX - player.x) ** 2 + (mouseY - player.y) ** 2);
+
+        // Если расстояние до курсора больше радиуса персонажа, он продолжает двигаться
+        if (distanceToMouse > player.radius) {
+            const distance = player.speed * deltaTime;
+            const dx = Math.cos(angle) * distance;
+            const dy = Math.sin(angle) * distance;
+
+            // Проверка столкновения игрока со стеной
+            const nextX = player.x + dx;
+            const nextY = player.y + dy;
+
+            if (
+                !(nextX + player.radius > wall.x && nextX - player.radius < wall.x + wall.width &&
+                nextY + player.radius > wall.y && nextY - player.radius < wall.y + wall.height)
+            ) {
+                // Двигаем игрока только если нет столкновения со стеной
+                player.x += dx;
+                player.y += dy;
+            }
+        }
+    }
+
+
+    // Определение параметров стенки
+    const wall = {
+        x: cw / 3, // координаты стенки
+        y: ch / 2,
+        width: 200,
+        height: 20,
+        color: 'gray'
+    };
+
+    function drawWall() {
+        ctx.fillStyle = wall.color;
+        ctx.fillRect(wall.x, wall.y, wall.width, wall.height);
+    }
+
+    function checkBulletCollisionWithWall(bullet) {
+        // Проверка столкновения с вертикальными и горизонтальными границами стенки
+        if (
+            bullet.x + bullet.radius > wall.x && 
+            bullet.x - bullet.radius < wall.x + wall.width &&
+            bullet.y + bullet.radius > wall.y &&
+            bullet.y - bullet.radius < wall.y + wall.height
+        ) {
+            // Определяем, с какой стороны произошло столкновение
+            const distToLeft = bullet.x - wall.x;
+            const distToRight = (wall.x + wall.width) - bullet.x;
+            const distToTop = bullet.y - wall.y;
+            const distToBottom = (wall.y + wall.height) - bullet.y;
+
+            const minDist = Math.min(distToLeft, distToRight, distToTop, distToBottom);
+
+            if (minDist === distToLeft || minDist === distToRight) {
+                // Отражение по горизонтали (изменяем направление по оси X)
+                bullet.direction = Math.PI - bullet.direction;
+            } else if (minDist === distToTop || minDist === distToBottom) {
+                // Отражение по вертикали (изменяем направление по оси Y)
+                bullet.direction = -bullet.direction;
+            }
+        }
+    }
+
+    function updateBullets(deltaTime) {
+        for (let i = bullets.length - 1; i >= 0; i--) {
+            const bullet = bullets[i];
+            bullet.x += Math.cos(bullet.direction) * bullet.speed * deltaTime * 1000;
+            bullet.y += Math.sin(bullet.direction) * bullet.speed * deltaTime * 1000;
+
+            checkBulletCollisionWithWall(bullet); // Проверка столкновения пули со стенкой
+
+            if (bullet.x < 0 || bullet.x > cw || bullet.y < 0 || bullet.y > ch) {
+                bullets.splice(i, 1); // удаляем пулю, если вышла за экран
+            }
+        }
+    }
+
+    function gameLoop(timestamp) {
+        const deltaTime = timestamp - lastTimestamp;
+        lastTimestamp = timestamp;
+
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, cw, ch);
+
+        movePlayer(deltaTime / 1000);
+        updateBullets(deltaTime / 1000);
+
+        drawPlayer();
+        drawBullets();
+        drawWall(); // Отрисовка стенки
+
+        requestAnimationFrame(gameLoop);
+    }
+
+
+    function drawPlayer() {
+        ctx.beginPath();
+        ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
+        ctx.fillStyle = player.color;
+        ctx.fill();
+    }
+
+    function drawBullets() {
+        bullets.forEach(bullet => {
+            ctx.beginPath();
+            ctx.arc(bullet.x, bullet.y, bullet.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+        });
+    }
+
+
+    let lastTimestamp = 0;
+    requestAnimationFrame(gameLoop);
+
+    window.addEventListener('resize', () => {
+        cw = canvas.width = window.innerWidth;
+        ch = canvas.height = window.innerHeight;
+    });
+</script>
+</body>
+</html>

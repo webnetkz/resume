@@ -1,0 +1,30 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+#iframeContainer {
+  height: 100%;
+  width: 100%;
+}
+iframe {
+  border: none;
+  height: 100%;
+  width: 100%;
+}
+#back {
+  position: fixed;
+  right: 2rem;
+  bottom: 1rem;
+  font-size: 1.3rem;
+  color: var(--white);
+  background: red;
+  border: none;
+  border-radius: 7px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+#back:hover {
+  transform: scale(1.2);
+}
